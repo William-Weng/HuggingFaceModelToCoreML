@@ -15,7 +15,6 @@ def load_hugging_face_model(model_id: str):
         pytorch_model.eval()  # 將模型設定為評估模式
         return model.Result(value=(tokenizer, pytorch_model))
     except Exception as error:
-        print(f"載入模型時發生錯誤: {error}")
         return model.Result(error=error)
 
 def convert_traced_model(wrapped_model, dummy_input):
