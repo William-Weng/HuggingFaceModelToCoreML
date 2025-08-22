@@ -33,30 +33,6 @@ def convert_traced_model(wrapped_model, dummy_input):
     except Exception as error:
         return model.Result(error=error)
 
-def convert_to_coreml(traced_model, dummy_input, coreml_filename: str):
-    r"""將追蹤後的 TorchScript 模型轉換為 Core ML 格式。
-
-    :param traced_model: 追蹤後的 TorchScript 模型。
-    :param dummy_input: 用於定義輸入形狀的虛擬輸入。
-    :param coreml_filename: 儲存 Core ML 模型的檔名。
-
-    :return: 轉換後的 Core ML 模型。
-    """
-    try:
-        coreml_model = ct.convert(
-            traced_model,
-            # 定義輸入的名稱、形狀和資料類型
-            inputs=[ct.TensorType(name="input_ids", shape=dummy_input.shape, dtype=np.int64)],
-            convert_to="mlprogram",  # 使用現代的 'mlprogram' 格式
-            compute_units=ct.ComputeUnit.CPU_ONLY # 強制使用 CPU 進行轉換，以提高相容性
-        )
-
-        # 儲存 Core ML 模型
-        coreml_model.save(coreml_filename)
-        return model.Result(value=coreml_model)
-    except Exception as error:
-        return model.Result(error=error)
-
 def wrapped_model_eval(pytorch_model):
     r"""將 PyTorch 模型包裝為評估模式的簡單輸出包裝器。
     :param pytorch_model: 原始的 PyTorch 模型。
