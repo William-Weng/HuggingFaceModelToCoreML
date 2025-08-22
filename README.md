@@ -2,7 +2,10 @@
 
 這個專案包含一個 Python 腳本，用於將 Hugging Face Hub 上的預訓練模型轉換為 Apple 的 Core ML 格式（`.mlpackage`）。
 
+## 成果
 ![](ml.png)
+
+https://github.com/user-attachments/assets/2910c2fb-dce3-4ded-b05e-1505853f9e46
 
 ## 功能
 
