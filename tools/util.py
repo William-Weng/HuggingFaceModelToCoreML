@@ -1,17 +1,23 @@
 import torch, argparse, coremltools as ct, numpy as np
 import tools.model as model
-from transformers import AutoTokenizer, AutoModelForMaskedLM
+from transformers import AutoTokenizer
+from tools.constant import AutoModelType
 
-def load_hugging_face_model(model_id: str):
+def load_hugging_face_model(model_id: str, model_type: str):
     r"""從 Hugging Face Hub 載入模型。
 
     :param model_id: Hugging Face 模型的 ID。
 
     :return: 載入的模型和分詞器。
     """
+
+    model_type = autoModelType(model_type)
+
+    print(model_type)
+
     try:
         tokenizer = AutoTokenizer.from_pretrained(model_id)
-        pytorch_model = AutoModelForMaskedLM.from_pretrained(model_id, torch_dtype=torch.float32)
+        pytorch_model = model_type.value.from_pretrained(model_id, torch_dtype=torch.float32)
         pytorch_model.eval()  # 將模型設定為評估模式
         return model.Result(value=(tokenizer, pytorch_model))
     except Exception as error:
@@ -72,6 +78,20 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description="將 Hugging Face 模型轉換為 Core ML 格式")
     parser.add_argument("--model_id", type=str, required=True, help="Hugging Face 模型的 ID，例如 'distilbert-base-uncased'")
+    parser.add_argument("--model_type", type=str, default=None, help="Hugging Face 模型的類型（預設為 masked）")
     parser.add_argument("--output", type=str, default=None, help="輸出的 Core ML 檔名（預設為 <model_id>.mlpackage）")
 
     return parser.parse_args()
+
+def autoModelType(type: str) -> AutoModelType:
+    r"""輸入參數轉成transformers的AutoModelType"""
+    type = f'{type.lower()}'.strip()
+
+    match type:
+        case "masked": return AutoModelType.MaskedLM
+        case "causal": return AutoModelType.CausalLM
+        case "seq2seq": return AutoModelType.Seq2SeqLM
+        case "question": return AutoModelType.QuestionAnswering
+        case "token": return AutoModelType.TokenClassification
+        case "sequence": return AutoModelType.SequenceClassification
+        case _: return AutoModelType.Default

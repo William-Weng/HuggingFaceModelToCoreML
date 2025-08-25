@@ -9,8 +9,8 @@ https://github.com/user-attachments/assets/2910c2fb-dce3-4ded-b05e-1505853f9e46
 
 ## 功能
 
-- 從 Hugging Face Hub 自動下載指定的 PyTorch 模型。
-- 將模型轉換為 Core ML 的 `mlprogram` 格式。
+- 從 Hugging Face Hub [自動下載](https://huggingface.co/)指定的 PyTorch 模型。
+- 將[模型轉換](https://blog.csdn.net/weixin_42426841/article/details/142236561)為 Core ML 的 `mlprogram` 格式。
 - 腳本內包含詳細的中文註解，方便理解與修改。
 
 ## 環境要求
@@ -47,8 +47,9 @@ https://github.com/user-attachments/assets/2910c2fb-dce3-4ded-b05e-1505853f9e46
     確認您已啟用虛擬環境後，執行以下指令：
 
     ```bash
-    python convert.py --model_id <Hugging-Face-Model-Path>
+    python convert.py -h
+    python convert.py --model_id <模型路徑> --model_type <模型類型> --output <輸出檔名>
     python convert.py --model_id distilbert-base-uncased
     ```
 
-    腳本將會開始[下載模型](https://huggingface.co/)並進行轉換。完成後，您會在專案目錄下看到一個新的 `.mlpackage` 檔案。
+    腳本將會開始下載模型並進行轉換。完成後，您會在專案目錄下看到一個新的 `.mlpackage` 檔案。

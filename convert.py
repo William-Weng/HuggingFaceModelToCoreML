@@ -6,12 +6,13 @@ def convert_hugging_face_to_coreml():
 
     args = util.parse_args()
     model_id = args.model_id
+    model_type = args.model_type if args.model_type else 'masked'
     coreml_filename = args.output if args.output else f"{model_id}.mlpackage"
 
     # --- 步驟 1: 載入 Hugging Face 模型 ---
     print(f"正在從 Hugging Face Hub 載入模型 '{model_id}'...")
 
-    result = util.load_hugging_face_model(model_id)
+    result = util.load_hugging_face_model(model_id, model_type)
     if result.is_err: print(f"載入模型時發生錯誤: {result.error}"); return
     tokenizer, pytorch_model = result.value
 
