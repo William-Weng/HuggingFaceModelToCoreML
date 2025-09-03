@@ -48,8 +48,12 @@ https://github.com/user-attachments/assets/2910c2fb-dce3-4ded-b05e-1505853f9e46
 
     ```bash
     python convert.py -h
-    python convert.py --model_id <模型路徑> --model_type <模型類型> --output <輸出檔名>
-    python convert.py --model_id distilbert-base-uncased
+    python convert.py 
+        --model_id <模型路徑> 
+        --model_type <default / masked / causal / seq2seq / question / token / sequence> 
+        --output <輸出檔名>
+    python convert.py --model_id distilbert-base-uncased --model_type masked
+    python convert.py --model_id "google/gemma-3-270m" --model_type causal
     ```
 
     腳本將會開始下載模型並進行轉換。完成後，您會在專案目錄下看到一個新的 `.mlpackage` 檔案。
