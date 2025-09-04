@@ -48,11 +48,14 @@ https://github.com/user-attachments/assets/2910c2fb-dce3-4ded-b05e-1505853f9e46
 
     ```bash
     python convert.py -h
+    
     python convert.py 
         --model_id <模型路徑> 
         --model_type <default / masked / causal / seq2seq / question / token / sequence> 
         --output <輸出檔名>
+    
     python convert.py --model_id distilbert-base-uncased --model_type masked
+    
     python convert.py --model_id "meta-llama/Llama-3.2-1B" --model_type causal
     ```
 
